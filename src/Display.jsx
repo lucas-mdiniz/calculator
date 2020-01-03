@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledDisplay = styled.div`
   border: none;
@@ -12,8 +13,14 @@ const StyledDisplay = styled.div`
   height: 60px;
 `;
 
-function Display() {
-  return <StyledDisplay>0</StyledDisplay>;
+function Display(props) {
+  const { expression } = props;
+
+  return <StyledDisplay>{expression}</StyledDisplay>;
 }
+
+Display.propTypes = {
+  expression: PropTypes.string.isRequired
+};
 
 export default Display;

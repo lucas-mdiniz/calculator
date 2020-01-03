@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import Display from './Display';
+import useExpression from './hooks/useExpression';
 
 const ButtonsBox = styled.div`
   max-width: 100%;
@@ -30,9 +31,20 @@ const CalculatorWrapper = styled.div`
 function Calculator(props) {
   const { buttons } = props;
 
+  const [expression, setExpression] = useExpression('0');
+
+  const handleExpression = (e, value, type) => {
+    e.preventDefault();
+    if (value === '=') {
+      console.log('teste');
+    } else {
+      setExpression(value, type);
+    }
+  };
+
   return (
     <CalculatorWrapper>
-      <Display />
+      <Display expression={expression} />
       <ButtonsBox>
         {buttons.map(button => (
           <Button
@@ -40,6 +52,7 @@ function Calculator(props) {
             id={button.id}
             value={button.value}
             type={button.type}
+            handleSetExpression={handleExpression}
           />
         ))}
       </ButtonsBox>
@@ -50,4 +63,5 @@ function Calculator(props) {
 Calculator.propTypes = {
   buttons: PropTypes.arrayOf(PropTypes.object).isRequired
 };
+
 export default Calculator;

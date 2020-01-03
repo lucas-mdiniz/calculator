@@ -23,7 +23,7 @@ function App() {
     { id: 'nine', value: '9', type: 'number' },
     { id: 'zero', value: '0', type: 'number' },
     { id: 'equals', value: '=', type: 'operator' },
-    { id: 'multiply', value: 'x', type: 'operator' },
+    { id: 'multiply', value: '*', type: 'operator' },
     { id: 'divide', value: '/', type: 'operator' },
     { id: 'add', value: '+', type: 'operator' },
     { id: 'subtract', value: '-', type: 'operator' },

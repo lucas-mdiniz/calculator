@@ -18,10 +18,14 @@ const StyledButton = styled.button`
 `;
 
 function Button(props) {
-  const { id, value, type } = props;
+  const { id, value, type, handleSetExpression } = props;
+
+  const handleExpression = e => {
+    handleSetExpression(e, value, type);
+  };
 
   return (
-    <StyledButton id={id} type={type}>
+    <StyledButton id={id} type={type} onClick={handleExpression}>
       {value}
     </StyledButton>
   );
@@ -30,7 +34,8 @@ function Button(props) {
 Button.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  handleSetExpression: PropTypes.func.isRequired
 };
 
 export default Button;
