@@ -17,7 +17,7 @@ const ButtonsBox = styled.div`
     'seven eight nine subtract'
     'four five six add'
     'one two three equals'
-    'zero zero decimal equals';
+    'zero decimal delete equals';
   background: #4a4a4a;
 `;
 
@@ -33,12 +33,12 @@ function Calculator(props) {
 
   const [expression, setExpression] = useExpression('0');
 
-  const handleExpression = (e, value, type) => {
+  const handleExpression = (e, value) => {
     e.preventDefault();
     if (value === '=') {
       console.log('teste');
     } else {
-      setExpression(value, type);
+      setExpression(value);
     }
   };
 

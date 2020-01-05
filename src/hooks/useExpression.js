@@ -3,48 +3,48 @@ import { useState } from 'react';
 export default initialValue => {
   const [state, setState] = useState(initialValue);
 
-  const displayPattern = /([+-]?)(\d+)(\.?)(\d*)([*/+]?)([-]?)/g; /* check if this is a better regex [+-]?\d*\.*\d+(?:[+*\/-][+-]?\d*\.*\d+)* */
+  const displayPattern = /([+-]?)(\d+)(\.?)(\d*)([*/]?)([+-]?)/g;
   const isOperator = /[*/+-]/;
   const isNumber = /\d/;
-  const isSign = /[-+]/;
+  const isSign = /^[+-]{1}$/;
   const lastChar = state.slice(-1);
   const beforeLastChar = state.slice(state.length - 2, state.length - 1);
 
   const setExpression = value => {
-    if (value.includes('AC')) {
+    if (value === 'AC') {
       setState('0');
-    } else if (state.length === 1) {
-      if (isNumber.test(value)) {
-        if (state === '0') {
-          setState(value);
-        } else {
-          setState(preVal => preVal + value);
-        }
-      } else if (value === '.') {
-        setState(preVal => preVal + value);
+    } else if (value === '⌫') {
+      if (state.length <= '1') {
+        setState('0');
       } else {
-        setState(preVal => preVal + value);
+        setState(preState => preState.slice(0, -1));
       }
-    } else if (isOperator.test(lastChar) && isOperator.test(value)) {
-      if (isOperator.test(beforeLastChar)) {
-        setState(prevVal => prevVal.slice(0, -2) + value);
-      } else if (isSign.test(lastChar)) {
-        setState(prevVal => prevVal.slice(0, -1) + value);
-      } else if (!isSign.test(value)) {
-        setState(prevVal => prevVal.slice(0, -1) + value);
+    } else if (isNumber.test(value)) {
+      if (state === '0') {
+        setState(value);
       } else {
-        setState(
-          preVal =>
-            (preVal + value).match(displayPattern) &&
-            (preVal + value).match(displayPattern).join('')
+        setState(preState => preState + value);
+      }
+    } else if (isOperator.test(value)) {
+      if (isSign.test(value)) {
+        if (isSign.test(lastChar)) {
+          setState(preState => preState.slice(0, -1) + value);
+        } else {
+          setState(prevState =>
+            (prevState + value).match(displayPattern).join('')
+          );
+        }
+      } else if (isOperator.test(beforeLastChar)) {
+        setState(preState => preState.slice(0, -2) + value);
+      } else if (isOperator.test(lastChar)) {
+        setState(preState => preState.slice(0, -1) + value);
+      } else {
+        setState(prevState =>
+          (prevState + value).match(displayPattern).join('')
         );
       }
     } else {
-      setState(
-        preVal =>
-          (preVal + value).match(displayPattern) &&
-          (preVal + value).match(displayPattern).join('')
-      );
+      setState(prevState => (prevState + value).match(displayPattern).join(''));
     }
   };
   return [state, setExpression];

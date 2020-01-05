@@ -21,7 +21,7 @@ function Button(props) {
   const { id, value, type, handleSetExpression } = props;
 
   const handleExpression = e => {
-    handleSetExpression(e, value, type);
+    handleSetExpression(e, value);
   };
 
   return (

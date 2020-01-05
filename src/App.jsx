@@ -28,7 +28,8 @@ function App() {
     { id: 'add', value: '+', type: 'operator' },
     { id: 'subtract', value: '-', type: 'operator' },
     { id: 'decimal', value: '.', type: 'operator' },
-    { id: 'clear', value: 'AC', type: 'operator' }
+    { id: 'clear', value: 'AC', type: 'operator' },
+    { id: 'delete', value: '⌫', type: 'number' }
   ];
 
   return (
