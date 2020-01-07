@@ -34,7 +34,7 @@ export default initialValue => {
             (prevState + value).match(displayPattern).join('')
           );
         }
-      } else if (isOperator.test(beforeLastChar)) {
+      } else if (isOperator.test(beforeLastChar) && !isNumber.test(lastChar)) {
         setState(preState => preState.slice(0, -2) + value);
       } else if (isOperator.test(lastChar)) {
         setState(preState => preState.slice(0, -1) + value);
