@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 import Display from './Display';
 import useExpression from './hooks/useExpression';
-import calculate from './helper';
 
 const ButtonsBox = styled.div`
   max-width: 100%;
@@ -36,11 +35,7 @@ function Calculator(props) {
 
   const handleExpression = (e, value) => {
     e.preventDefault();
-    if (value === '=') {
-      console.log(calculate(expression));
-    } else {
-      setExpression(value);
-    }
+    setExpression(value);
   };
 
   return (

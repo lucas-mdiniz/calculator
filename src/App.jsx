@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactFCCtest from 'react-fcctest';
 import Calculator from './Calculator';
 
 const CalculatorContainer = styled.div`
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <CalculatorContainer>
+      <ReactFCCtest />
       <Calculator buttons={buttons} />
     </CalculatorContainer>
   );

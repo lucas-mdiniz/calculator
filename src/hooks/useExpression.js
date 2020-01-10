@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import calculate from '../helper';
 
 export default initialValue => {
   const [state, setState] = useState(initialValue);
@@ -43,6 +44,8 @@ export default initialValue => {
           (prevState + value).match(displayPattern).join('')
         );
       }
+    } else if (value === '=') {
+      setState(prevState => calculate(prevState));
     } else {
       setState(prevState => (prevState + value).match(displayPattern).join(''));
     }

@@ -1,12 +1,25 @@
 export default expression => {
-  const operators = /([-+/*])/g;
+  const operators = /([-+/*])/;
+  const isNumber = /\d/;
+
+  const postFixExpression = [];
+  const postFixstack = [];
+  const evaluateStack = [];
+  let result;
 
   let operatorsArray = expression.split(operators);
   let i;
   let calc;
   let operator;
 
-  /* fazer um while com index of  enquanto existir operador calcula reduzindo a array */
+  function getPriority(currentOperator) {
+    if (currentOperator === '+' || currentOperator === '-') {
+      return 1;
+    } else if (currentOperator === '*' || currentOperator === '/') {
+      return 2;
+    }
+    return 0;
+  }
 
   /* remove spaces */
 
@@ -17,6 +30,61 @@ export default expression => {
     operatorsArray.pop();
   }
 
+  /* convert expression to postFix */
+
+  operatorsArray.forEach(item => {
+    if (isNumber.test(item)) {
+      postFixExpression.push(item);
+    } else if (operators.test(item)) {
+      while (postFixstack.length > 0) {
+        const peekedItem = postFixstack[postFixstack.length - 1];
+
+        if (
+          operators.test(peekedItem) &&
+          getPriority(peekedItem) >= getPriority(item)
+        ) {
+          postFixExpression.push(peekedItem);
+          postFixstack.pop();
+        } else break;
+      }
+
+      postFixstack.push(item);
+    }
+  });
+
+  while (postFixstack.length > 0) {
+    postFixExpression.push(postFixstack.pop());
+  }
+
+  postFixExpression.forEach(item => {
+    if (isNumber.test(item)) {
+      evaluateStack.push(item);
+    } else if (operators.test(item)) {
+      const number2 = parseFloat(evaluateStack.pop());
+      const number1 = parseFloat(evaluateStack.pop());
+
+      switch (item) {
+        case '+':
+          result = number1 + number2;
+          break;
+        case '-':
+          result = number1 - number2;
+          break;
+        case '/':
+          result = number1 / number2;
+          break;
+        case '*':
+          result = number1 * number2;
+          break;
+        default:
+          result = 0;
+      }
+      evaluateStack.push(result);
+    }
+  });
+
+  console.log(postFixExpression);
+  console.log(evaluateStack);
   /* calculate the priorities */
 
   while (operatorsArray.includes('*') || operatorsArray.includes('/')) {
@@ -80,5 +148,5 @@ export default expression => {
     }
   }
 
-  return operatorsArray[0];
+  return operatorsArray[0].toString();
 };

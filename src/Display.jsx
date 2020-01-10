@@ -16,7 +16,7 @@ const StyledDisplay = styled.div`
 function Display(props) {
   const { expression } = props;
 
-  return <StyledDisplay>{expression}</StyledDisplay>;
+  return <StyledDisplay id="display">{expression}</StyledDisplay>;
 }
 
 Display.propTypes = {
