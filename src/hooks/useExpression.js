@@ -7,7 +7,7 @@ export default initialValue => {
   const displayPattern = /([+-]?)(\d+)(\.?)(\d*)([*/]?)([+-]?)/g;
   const isOperator = /[*/+-]/;
   const isNumber = /\d/;
-  const isSign = /^[+-]{1}$/;
+  const isSign = /^[-+]{1}$/;
   const lastChar = state.slice(-1);
   const beforeLastChar = state.slice(state.length - 2, state.length - 1);
 

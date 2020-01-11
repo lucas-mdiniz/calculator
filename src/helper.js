@@ -1,6 +1,7 @@
 export default expression => {
   const operators = /([-+/*])/;
   const isNumber = /\d/;
+  const isSign = /[-+]/;
 
   const postFixExpression = [];
   const postFixstack = [];
@@ -8,9 +9,6 @@ export default expression => {
   let result;
 
   let operatorsArray = expression.split(operators);
-  let i;
-  let calc;
-  let operator;
 
   function getPriority(currentOperator) {
     if (currentOperator === '+' || currentOperator === '-') {
@@ -32,14 +30,22 @@ export default expression => {
 
   /* convert expression to postFix */
 
-  operatorsArray.forEach(item => {
+  let negativeNumber = false;
+
+  operatorsArray.forEach((item, index) => {
     if (isNumber.test(item)) {
       postFixExpression.push(item);
     } else if (operators.test(item)) {
       while (postFixstack.length > 0) {
         const peekedItem = postFixstack[postFixstack.length - 1];
 
-        if (
+        if (operators.test(operatorsArray[index - 1]) && item === '-') {
+          const beforeNegative = postFixstack.pop();
+          negativeNumber = true;
+          postFixstack.push(item);
+          postFixstack.push(beforeNegative);
+          break;
+        } else if (
           operators.test(peekedItem) &&
           getPriority(peekedItem) >= getPriority(item)
         ) {
@@ -48,18 +54,43 @@ export default expression => {
         } else break;
       }
 
-      postFixstack.push(item);
+      if (!negativeNumber) {
+        postFixstack.push(item);
+      } else negativeNumber = false;
     }
   });
+
+  console.log(postFixstack);
 
   while (postFixstack.length > 0) {
     postFixExpression.push(postFixstack.pop());
   }
 
+  console.log(postFixExpression);
+
+  /* threat the signs */
+  postFixExpression.forEach((item, i) => {
+    const nextOperator = postFixExpression[i + 1];
+
+    if (isSign.test(item) && isSign.test(nextOperator)) {
+      if (item === nextOperator) {
+        postFixExpression.splice(i, 2, '+');
+      } else {
+        postFixExpression.splice(i, 2, '-');
+      }
+    }
+  });
+
+  /* evaluate the expression */
+
   postFixExpression.forEach(item => {
     if (isNumber.test(item)) {
       evaluateStack.push(item);
     } else if (operators.test(item)) {
+      if (evaluateStack.length === 1) {
+        evaluateStack.unshift('0');
+      }
+
       const number2 = parseFloat(evaluateStack.pop());
       const number1 = parseFloat(evaluateStack.pop());
 
@@ -83,70 +114,5 @@ export default expression => {
     }
   });
 
-  console.log(postFixExpression);
-  console.log(evaluateStack);
-  /* calculate the priorities */
-
-  while (operatorsArray.includes('*') || operatorsArray.includes('/')) {
-    operator = operatorsArray.find(
-      element => element === '/' || element === '*'
-    );
-
-    if (operator === '/') {
-      i = operatorsArray.indexOf('/');
-
-      if (operatorsArray[i + 1] === '-') {
-        calc =
-          parseFloat(operatorsArray[i - 1]) /
-          -parseFloat(operatorsArray[i + 2]);
-        operatorsArray.splice(i - 1, 4, calc);
-      } else if (operatorsArray[i + 1] === '+') {
-        calc =
-          parseFloat(operatorsArray[i - 1]) / parseFloat(operatorsArray[i + 2]);
-        operatorsArray.splice(i - 1, 4, calc);
-      } else {
-        calc =
-          parseFloat(operatorsArray[i - 1]) / parseFloat(operatorsArray[i + 1]);
-        operatorsArray.splice(i - 1, 3, calc);
-      }
-    } else if (operator === '*') {
-      i = operatorsArray.indexOf('*');
-      if (operatorsArray[i + 1] === '-') {
-        calc =
-          parseFloat(operatorsArray[i - 1]) *
-          -parseFloat(operatorsArray[i + 2]);
-        operatorsArray.splice(i - 1, 4, calc);
-      } else if (operatorsArray[i + 1] === '+') {
-        calc =
-          parseFloat(operatorsArray[i - 1]) * parseFloat(operatorsArray[i + 2]);
-        operatorsArray.splice(i - 1, 4, calc);
-      } else {
-        calc =
-          parseFloat(operatorsArray[i - 1]) * parseFloat(operatorsArray[i + 1]);
-        operatorsArray.splice(i - 1, 3, calc);
-      }
-    }
-  }
-
-  /* calculate the non priorities */
-
-  while (operatorsArray.length > 1) {
-    operator = operatorsArray.find(
-      element => element === '+' || element === '-'
-    );
-
-    if (operator === '+') {
-      i = operatorsArray.indexOf('+');
-      calc =
-        parseFloat(operatorsArray[i - 1]) + parseFloat(operatorsArray[i + 1]);
-      operatorsArray.splice(i - 1, 3, calc);
-    } else if (operator === '-') {
-      i = operatorsArray.indexOf('-');
-      calc =
-        parseFloat(operatorsArray[i - 1]) - parseFloat(operatorsArray[i + 1]);
-      operatorsArray.splice(i - 1, 3, calc);
-    }
-  }
-
-  return operatorsArray[0].toString();
+  return evaluateStack[0].toString();
 };
