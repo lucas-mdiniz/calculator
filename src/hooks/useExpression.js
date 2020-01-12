@@ -50,5 +50,6 @@ export default initialValue => {
       setState(prevState => (prevState + value).match(displayPattern).join(''));
     }
   };
+
   return [state, setExpression];
 };

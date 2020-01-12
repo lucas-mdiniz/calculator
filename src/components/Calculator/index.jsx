@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/index';
 import Display from '../Display/index';
@@ -12,8 +12,37 @@ function Calculator(props) {
 
   const handleExpression = (e, value) => {
     e.preventDefault();
-    setExpression(value);
+    let newValue = value;
+
+    if (e.type === 'keydown') {
+      switch (e.key) {
+        case 'Enter':
+          newValue = '=';
+          break;
+        case 'Backspace':
+          newValue = '⌫';
+          break;
+        case ',':
+          newValue = '.';
+          break;
+        case 'Escape':
+          newValue = 'AC';
+          break;
+        default:
+          newValue = e.key;
+      }
+    }
+
+    setExpression(newValue);
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleExpression);
+
+    return () => {
+      document.removeEventListener('keydown', handleExpression);
+    };
+  });
 
   return (
     <CalculatorWrapper>

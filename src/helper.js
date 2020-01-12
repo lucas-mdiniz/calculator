@@ -1,3 +1,5 @@
+/* I SHALL NOT LET + ANFER * OR / PASS */
+
 export default expression => {
   const operators = /([-+/*])/;
   const isNumber = /\d/;
@@ -39,7 +41,7 @@ export default expression => {
       while (postFixstack.length > 0) {
         const peekedItem = postFixstack[postFixstack.length - 1];
 
-        if (operators.test(operatorsArray[index - 1]) && item === '-') {
+        if (operators.test(operatorsArray[index - 1]) && isSign.test(item)) {
           const beforeNegative = postFixstack.pop();
           negativeNumber = true;
           postFixstack.push(item);
@@ -60,24 +62,24 @@ export default expression => {
     }
   });
 
-  console.log(postFixstack);
-
   while (postFixstack.length > 0) {
     postFixExpression.push(postFixstack.pop());
   }
 
-  console.log(postFixExpression);
-
-  /* threat the signs */
+  /* threat the signs, maybe I can use a reducer */
   postFixExpression.forEach((item, i) => {
-    const nextOperator = postFixExpression[i + 1];
+    let nextOperator = postFixExpression[i + 1];
+    let newItem = item;
 
-    if (isSign.test(item) && isSign.test(nextOperator)) {
-      if (item === nextOperator) {
+    while (isSign.test(newItem) && isSign.test(nextOperator)) {
+      if (newItem === nextOperator) {
         postFixExpression.splice(i, 2, '+');
       } else {
         postFixExpression.splice(i, 2, '-');
       }
+
+      nextOperator = postFixExpression[i + 1];
+      newItem = postFixExpression[i];
     }
   });
 
