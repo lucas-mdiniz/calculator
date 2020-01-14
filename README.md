@@ -24,3 +24,7 @@ You will also see any lint errors in the console.
 * [styled-components](https://rometools.github.io/rome/)
 * [prop-types](https://github.com/facebook/prop-types) 
 * [prettier](https://github.com/prettier/prettier)
+
+## License
+
+See the [LICENSE.md](LICENSE) file for details.
