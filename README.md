@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 # React Calculator
 
 A simple calculator made with [React.js](https://github.com/facebook/react)
