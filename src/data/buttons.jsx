@@ -9,14 +9,14 @@ const buttons = [
   { id: 'eight', value: '8', type: 'number' },
   { id: 'nine', value: '9', type: 'number' },
   { id: 'zero', value: '0', type: 'number' },
-  { id: 'equals', value: '=', type: 'operator' },
-  { id: 'multiply', value: '*', type: 'operator' },
+  { id: 'equals', value: 'Enter', text: '=', type: 'operator' },
+  { id: 'multiply', value: '*', text: 'x', type: 'operator' },
   { id: 'divide', value: '/', type: 'operator' },
   { id: 'add', value: '+', type: 'operator' },
   { id: 'subtract', value: '-', type: 'operator' },
-  { id: 'decimal', value: '.', type: 'operator' },
-  { id: 'clear', value: 'AC', type: 'operator' },
-  { id: 'delete', value: '⌫', type: 'number' }
+  { id: 'decimal', value: '.', text: ',', type: 'operator' },
+  { id: 'clear', value: 'Escape', text: 'AC', type: 'operator' },
+  { id: 'delete', value: 'Backspace', text: '⌫', type: 'number' }
 ];
 
 export default buttons;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import StyledButton from './styles';
 
 function Button(props) {
-  const { id, value, type, handleSetExpression } = props;
+  const { id, value, type, handleSetExpression, text = null } = props;
 
   const handleExpression = e => {
     handleSetExpression(e, value);
@@ -11,16 +11,19 @@ function Button(props) {
 
   return (
     <StyledButton id={id} type={type} onClick={handleExpression}>
-      {value}
+      {text || value}
     </StyledButton>
   );
 }
+
+Button.defaultProps = { text: null };
 
 Button.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  handleSetExpression: PropTypes.func.isRequired
+  handleSetExpression: PropTypes.func.isRequired,
+  text: PropTypes.string
 };
 
 export default Button;

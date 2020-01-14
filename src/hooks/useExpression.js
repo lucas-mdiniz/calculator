@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import calculate from '../helper';
+import calculate from '../logic/calculate';
 
 export default initialValue => {
   const [state, setState] = useState(initialValue);
@@ -12,21 +12,34 @@ export default initialValue => {
   const beforeLastChar = state.slice(state.length - 2, state.length - 1);
 
   const setExpression = value => {
-    if (value === 'AC') {
+    /* AC */
+
+    if (value === 'Escape') {
       setState('0');
-    } else if (value === '⌫') {
+    }
+
+    /* Delete */
+
+    if (value === 'Backspace') {
       if (state.length <= '1') {
         setState('0');
       } else {
         setState(preState => preState.slice(0, -1));
       }
-    } else if (isNumber.test(value)) {
+    }
+
+    /* Number */
+    if (isNumber.test(value)) {
       if (state === '0') {
         setState(value);
       } else {
         setState(preState => preState + value);
       }
-    } else if (isOperator.test(value)) {
+    }
+
+    /* Operator */
+
+    if (isOperator.test(value)) {
       if (isSign.test(value)) {
         if (isSign.test(lastChar)) {
           setState(preState => preState.slice(0, -1) + value);
@@ -44,10 +57,18 @@ export default initialValue => {
           (prevState + value).match(displayPattern).join('')
         );
       }
-    } else if (value === '=') {
-      setState(prevState => calculate(prevState));
-    } else {
+    }
+
+    /* decimal */
+
+    if (value === '.') {
       setState(prevState => (prevState + value).match(displayPattern).join(''));
+    }
+
+    /* Equal */
+
+    if (value === 'Enter') {
+      setState(prevState => calculate(prevState));
     }
   };
 

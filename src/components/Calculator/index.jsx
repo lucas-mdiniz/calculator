@@ -12,28 +12,14 @@ function Calculator(props) {
 
   const handleExpression = (e, value) => {
     e.preventDefault();
-    let newValue = value;
 
-    if (e.type === 'keydown') {
-      switch (e.key) {
-        case 'Enter':
-          newValue = '=';
-          break;
-        case 'Backspace':
-          newValue = '⌫';
-          break;
-        case ',':
-          newValue = '.';
-          break;
-        case 'Escape':
-          newValue = 'AC';
-          break;
-        default:
-          newValue = e.key;
-      }
+    switch (e.type) {
+      case 'keydown':
+        setExpression(e.key === ',' ? '.' : e.key);
+        break;
+      default:
+        setExpression(value);
     }
-
-    setExpression(newValue);
   };
 
   useEffect(() => {
@@ -54,6 +40,7 @@ function Calculator(props) {
             id={button.id}
             value={button.value}
             type={button.type}
+            text={button.text}
             handleSetExpression={handleExpression}
           />
         ))}

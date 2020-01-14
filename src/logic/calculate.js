@@ -1,5 +1,3 @@
-/* I SHALL NOT LET + ANFER * OR / PASS */
-
 export default expression => {
   const operators = /([-+/*])/;
   const isNumber = /\d/;
@@ -15,7 +13,8 @@ export default expression => {
   function getPriority(currentOperator) {
     if (currentOperator === '+' || currentOperator === '-') {
       return 1;
-    } else if (currentOperator === '*' || currentOperator === '/') {
+    }
+    if (currentOperator === '*' || currentOperator === '/') {
       return 2;
     }
     return 0;
@@ -26,6 +25,7 @@ export default expression => {
   operatorsArray = operatorsArray.filter(element => element !== '');
 
   /* remove if last element is operator */
+
   while (operators.test(operatorsArray[operatorsArray.length - 1])) {
     operatorsArray.pop();
   }
@@ -67,6 +67,7 @@ export default expression => {
   }
 
   /* threat the signs, maybe I can use a reducer */
+
   postFixExpression.forEach((item, i) => {
     let nextOperator = postFixExpression[i + 1];
     let newItem = item;
