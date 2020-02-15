@@ -2,6 +2,10 @@
 
 A simple calculator made with [React.js](https://github.com/facebook/react)
 
+### Live Demo
+
+https://lucasmdiniz-calculator.netlify.com/
+
 ### Demo
 
 ![Calculator Demo](demos/calculator.gif)
